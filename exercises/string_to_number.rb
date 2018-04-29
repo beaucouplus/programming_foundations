@@ -17,7 +17,8 @@ require 'pry'
 TABLE = {
   '0' => 0, '1' => 1, '2' => 2, '3' => 3,
   '4' => 4, '5' => 5, '6' => 6, '7' => 7,
-  '8' => 8, '9' => 9
+  '8' => 8, '9' => 9, 'A' => 10, 'B' => 11,
+  'C' => 12, 'D' => 13, 'E' => 14, 'F' => 15
 }
 
 # convert string to array
@@ -33,7 +34,7 @@ def string_to_integer(string)
   numbers_in_array = string.chars.map { |num| TABLE[num] }
   arr_size = numbers_in_array.size
   sum = 0
- 
+
   numbers_in_array.each_with_index do |num, idx|
     sum += num * (10**(arr_size - (idx + 1)))
   end
@@ -42,3 +43,16 @@ end
 
 p string_to_integer('4321') == 4321
 p string_to_integer('570') == 570
+
+HEX = 16
+
+def hexadecimal_to_integer(string)
+  numbers_in_array = string.chars.map { |num| TABLE[num.capitalize] }
+  sum = 0
+  numbers_in_array.reverse.each_with_index do |num, idx|
+    sum += num * HEX**idx
+  end
+  sum
+end
+
+p hexadecimal_to_integer('4D9f') == 19871
