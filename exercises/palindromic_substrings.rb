@@ -47,7 +47,6 @@ def palindromes(string)
   substrings.select { |item| item.size > 1 && palindrome?(item) }
 end
 
-
 p palindromes('abcd') == []
 p palindromes('madam') == ['madam', 'ada']
 p palindromes('hello-madam-did-madam-goodbye') == [
