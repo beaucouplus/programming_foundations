@@ -52,12 +52,28 @@ require 'pry'
 # one by one
 # define operations with method that takes stack and result as params ?
 
+
+
+#Add some error handling to your method. In particular, have the method detect
+#empty stack conditions, and invalid tokens in the program, and report those.
+#Ideally, the method should return an error message if an error occurs, and nil
+#if the program runs successfully.
+
+TOKENS = ['PUSH', 'ADD', 'SUB', 'MULT', 'DIV', 'MOD', 'POP', 'PRINT']
+TOKENS_NEEDING_STACK = ['ADD', 'SUB', 'MULT', 'DIV', 'MOD', 'POP']
+
+def needs_stack?(op, stack)
+  stack.empty? && TOKENS_NEEDING_STACK.include?(op)
+end
+
 def minilang(string)
   register = { value: 0 }
   stack = []
   operations = string.split
   operations.each do |op|
+    raise ArgumentError.new("Wrong token used") if !TOKENS.include?(op) && !integer?(op)
     next register[:value] = op.to_i if integer?(op)
+    raise ArgumentError.new("Nothing in the stack") if needs_stack?(op, stack)
     choose_operation(op, register, stack)
   end
   puts ""
@@ -112,6 +128,8 @@ def translate_to_minilang(expression)
 end
 
 p translate_to_minilang("(3 + (4 * 5) - 7) / (5 % 3)")
+
+minilang('3 PUSH 5 MOD PUSH 7 PUSH 5 PUSH 4 MULT PUSH 3 ADD SUB DIV')
 
 minilang('PRINT')
 # 0
